@@ -20,30 +20,33 @@
 			<div id="main">
 
 				<!-- Header -->
-					<header id="header">
-						<h1>Alisa Darling</h1>
-						<p>&nbsp;&bull;&nbsp;  Junior Developer &nbsp;&bull;&nbsp; Recent Graduate &nbsp;&bull;&nbsp; </p>
-						<nav>
-							<ul>
-								<li><a href="https://www.facebook.com/alisa.darling.16" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-								<li><a href="https://www.linkedin.com/in/alisadarling/" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
-								<li><a href="https://github.com/amdarling" class="icon brands fa-github"><span class="label">Github</span></a></li>
-								<li><a href="mailto:am_darling@ymail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-							</ul>
-						</nav>
-                        <div id="api">
-                            <button id="weather" >Weather</button>
-                            <button id="forecast">Forecast</button>
-                            <div id="today"></div>
-                            <div id="future"></div>
+                <header id="header">
+                    <h1>Alisa Darling</h1>
+                    <p>&nbsp;&bull;&nbsp;  Junior Developer &nbsp;&bull;&nbsp; Recent Graduate &nbsp;&bull;&nbsp; </p>
+                    <nav>
+                        <ul>
+                            <li><a href="https://www.facebook.com/alisa.darling.16" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                            <li><a href="https://www.linkedin.com/in/alisadarling/" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
+                            <li><a href="https://github.com/amdarling" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                            <li><a href="mailto:am_darling@ymail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                        </ul>
+                    </nav>
+                    <div id="api">
+                        <div id="buttons">
+                            <button id="weather">Weather</button><!-- 
+                            --><button id="forecast">Forecast</button>
                         </div>
-					</header>
+                        <div id="today"></div>
+                        <div id="future"></div>
+                    </div>
+                </header>
 
 
 
 				<!-- Footer -->
 					<footer id="footer">
-						<span class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>.</span>
+						<span class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Font: <a href="http://www.onlinewebfonts.com">oNline Web Fonts </a>  licensed by CC BY 3.0</span>
+                        <div>Font made from <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a>is licensed by CC BY 3.0</div>
 					</footer>
 
 			</div>
@@ -65,8 +68,6 @@
                 request.open('GET', url);
                 request.onload = function () {
 
-                    //if (request.readyState === XMLHttpRequest.DONE && requests.status === 200) {
-
                     if (iteration == 1) {
                         data = JSON.parse(request.response);
 
@@ -80,13 +81,12 @@
                         tempMax = Math.round((data.main.temp_max - 273.15))
                         tempMin = Math.round((data.main.temp_min - 273.15))
 
-                        //$('#ind').before("The weather today is: " + "<br />");
-
-                        $('#today').append('<p id="cDesc">' + data.weather[0].description + "  " + temp + '  </p>')
+                        $('#today').append('<p id="cDesc">' + data.weather[0].description + " - " + temp + 'C&#730;</p>')
 
                         $('#cDesc').after("<p class='text'>\xa0\xa0\xa0 Wind: " + data.wind.speed + " m/s </p>");
                         $('#cDesc').after("<p class='text'>\xa0\xa0\xa0 Min Temp: " + tempMin + "C&#730;</p>");
                         $('#cDesc').after("<p class='text'>\xa0\xa0\xa0 Max Temp: " + tempMax + "C&#730;</p>");
+                        $('#cDesc').after("<p class='text'>\xa0\xa0\xa0Humidity: " + data.main.humidity + "</p>");
 
 
                     } else {
@@ -101,28 +101,21 @@
 
                         for (var ind = 0; ind < data2.list.length; ind += 8) {
                             temp = Math.round((data2.list[ind].main.temp - 273.15))
-                            weather += data2.list[ind].weather[0].description + "  " + temp + "C&#730;\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0";
+                            weather += data2.list[ind].weather[0].description + " - " + temp + "C&#730;\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0";
                             icons = "http://openweathermap.org/img/wn/" + data2.list[ind].weather[0].icon + "@2x.png";
-                            var a = $('<img id= "ind' + ind + '" height= 100px width= 100px>');
+                            var a = $('<img id= "ind' + ind + '">');
                             $('<p id="text' + ind + '">');
                             $(a).attr("src", icons);
 
-                            b = $('#text' + ind).text(data2.list[ind].weather[0].description + "  " + temp + "C&#730;");
+                            b = $('#text' + ind).text(data2.list[ind].weather[0].description + " - " + temp + "C&#730;");
 
                             $('#future').append(a);
                             $('#ind' + ind).after("<p class='text'>" + data2.list[ind].weather[0].description + "  " + temp + "C&#730;</p>");
-                            console.log(ind);
                             }
-
-                        console.log(weather);
-                        //var weather = data.weather[0].main + ": " + data.weather[0].description;
-                        //$('#ind0').before("The forecast for the next 5 days is: " + "<br />");
-                        //$('#ind32').after("<br />" + weather);
 
                     }
                     iteration++;
                     
-                    //}
                 }
                 request.send()
             }
@@ -130,12 +123,10 @@
             $('#forecast').click(function () {
                 $('#today').hide();
                 $('#future').show();
-                console.log("miss");
             })
             $('#weather').click(function () {
                 $('#future').hide();
                 $('#today').show();
-                console.log("hit");
             })
 
 		</script>
